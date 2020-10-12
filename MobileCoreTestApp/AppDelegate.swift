@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import MobileCore
+import ios_core_library
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
