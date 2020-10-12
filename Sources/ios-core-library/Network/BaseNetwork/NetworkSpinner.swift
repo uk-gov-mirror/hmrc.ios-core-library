@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public protocol NetworkSpinner {
     func show()
     func popActivity()

@@ -15,6 +15,7 @@
  */
 
 import Foundation
+import UIKit
 
 public protocol ApplicationStateService {
     var current: UIApplication.State { get }

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import UIKit
+
 public protocol NetworkSessionConfigurationService {
     func config(sessionType: MobileCore.Network.SessionType, identifier: String) -> URLSessionConfiguration
 }
