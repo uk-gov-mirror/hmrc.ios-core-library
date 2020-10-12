@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@testable import MobileCore
+@testable import ios_core_library
 import XCTest
 
 class CoreNetworkServiceTests: CoreUnitTestCase {

@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import MobileCore
+import ios_core_library
 
 class ExampleApiRequestBuilder: MobileCore.HTTP.RequestBuilder {
 

@@ -15,7 +15,7 @@
  */
 
 import XCTest
-import MobileCore
+import ios_core_library
 
 class JourneyServiceTests: CoreUnitTestCase {
 

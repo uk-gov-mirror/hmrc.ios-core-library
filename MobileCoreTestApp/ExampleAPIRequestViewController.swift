@@ -15,7 +15,7 @@
  */
 
 import UIKit
-import MobileCore
+import ios_core_library
 
 class ExampleAPIRequestViewController: UIViewController, CoreNetworkServiceInjected {
 

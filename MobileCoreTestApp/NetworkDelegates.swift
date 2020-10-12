@@ -15,7 +15,7 @@
  */
 
 import Foundation
-import MobileCore
+import ios_core_library
 
 class ExampleNetworkAuditDelegate: NetworkServiceAuditDelegate {
     func trackAuditEventIfRequired(request: URLRequest, data: Data, response: URLResponse) {
