@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import Foundation
+
 public class NonErrorTransformingDataPoster: VoidDataPoster<MobileCore.Network.ServiceError> {
 
     private let resultTransformer: VoidResultTransformer<MobileCore.Network.ServiceError>
