@@ -1,4 +1,21 @@
+/.build
+/Packages
 
+/.idea
+/*.iml
+/*.ipr
+/out
+/.idea_modules
+/.classpath
+/.project
+/.settings
+.DS_Store
+IDEWorkspaceChecks.plist
+Carthage
+xcuserdata
+fastlane/report.xml
+
+.DS_Store
 logs
 project/project
 project/target

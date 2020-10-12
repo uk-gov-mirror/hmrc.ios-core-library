@@ -1,0 +1,39 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Create a new tagged release of this library plus a synchronised relase of the associated mobile-ios-core-test library."
+  desc "This will bump the Info.plist versiona, precompile the librarowa, commit and tag the changes, then push up to master."
+  desc "Example:"
+  desc "`fastlane tag_release tag:1.2.3`"
+  desc ""
+  lane :tag_release do |options|
+     tag = options[:tag] || UI.user_error!("tag argument not set")
+
+     # check we are on master and there are no uncommited changes
+     ensure_git_branch
+     ensure_git_status_clean
+
+     increment_version_number(
+       version_number: tag
+     )
+     stamp_changelog(
+       section_identifier: tag
+     )
+     sh('cd .. && carthage build --archive --platform iOS')
+     sh('git add -A')
+     sh('git commit -m "Version Bump to ' + tag + '"')
+     sh('git tag ' + tag)
+     sh('git push origin ' + git_branch)
+     sh('git push --tags')
+   end
+
+  desc "Update dependencies."
+  lane :update_dependencies do
+    sh 'cd .. && carthage update --platform ios --use-ssh'
+  end
+
+  desc "Check for outdated carthage dependencies."
+  lane :check_dependencies do
+    sh 'cd .. && mkdir -p Artifacts && /usr/local/bin/carthage outdated --xcode-warnings --use-ssh > Artifacts/dependencies_report.txt'
+  end
+end
