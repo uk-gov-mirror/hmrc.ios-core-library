@@ -381,11 +381,11 @@
       "OBJ_141" = {
          isa = "PBXGroup";
          children = (
-            "ios-test-helpers::ios-test-helpers::Product",
-            "ios-core-library::ios-core-library::Product",
-            "TrustKit::TrustKit::Product",
             "ios-core-library::ios-core-libraryTests::Product",
-            "DeviceKit::DeviceKit::Product"
+            "DeviceKit::DeviceKit::Product",
+            "ios-core-library::ios-core-library::Product",
+            "ios-test-helpers::ios-test-helpers::Product",
+            "TrustKit::TrustKit::Product"
          );
          name = "Products";
          path = "";
@@ -1558,12 +1558,25 @@
             "OBJ_283",
             "OBJ_284",
             "OBJ_285",
-            "OBJ_286"
+            "OBJ_286",
+            "OBJ_287",
+            "OBJ_288",
+            "OBJ_289",
+            "OBJ_290",
+            "OBJ_291",
+            "OBJ_292",
+            "OBJ_293",
+            "OBJ_294",
+            "OBJ_295",
+            "OBJ_296",
+            "OBJ_297",
+            "OBJ_298",
+            "OBJ_299"
          );
       };
       "OBJ_283" = {
          isa = "PBXBuildFile";
-         fileRef = "OBJ_76";
+         fileRef = "OBJ_75";
       };
       "OBJ_284" = {
          isa = "PBXBuildFile";
@@ -1578,21 +1591,16 @@
          fileRef = "OBJ_79";
       };
       "OBJ_287" = {
-         isa = "PBXFrameworksBuildPhase";
-         files = (
-            "OBJ_288",
-            "OBJ_289",
-            "OBJ_290",
-            "OBJ_291"
-         );
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_80";
       };
       "OBJ_288" = {
          isa = "PBXBuildFile";
-         fileRef = "ios-test-helpers::ios-test-helpers::Product";
+         fileRef = "OBJ_81";
       };
       "OBJ_289" = {
          isa = "PBXBuildFile";
-         fileRef = "ios-core-library::ios-core-library::Product";
+         fileRef = "OBJ_82";
       };
       "OBJ_29" = {
          isa = "PBXFileReference";
@@ -1601,118 +1609,43 @@
       };
       "OBJ_290" = {
          isa = "PBXBuildFile";
-         fileRef = "TrustKit::TrustKit::Product";
+         fileRef = "OBJ_83";
       };
       "OBJ_291" = {
          isa = "PBXBuildFile";
-         fileRef = "DeviceKit::DeviceKit::Product";
+         fileRef = "OBJ_84";
       };
       "OBJ_292" = {
-         isa = "PBXTargetDependency";
-         target = "ios-test-helpers::ios-test-helpers";
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_85";
+      };
+      "OBJ_293" = {
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_86";
       };
       "OBJ_294" = {
-         isa = "PBXTargetDependency";
-         target = "ios-core-library::ios-core-library";
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_87";
       };
       "OBJ_295" = {
-         isa = "PBXTargetDependency";
-         target = "TrustKit::TrustKit";
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_88";
       };
       "OBJ_296" = {
-         isa = "PBXTargetDependency";
-         target = "DeviceKit::DeviceKit";
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_90";
       };
       "OBJ_297" = {
-         isa = "XCConfigurationList";
-         buildConfigurations = (
-            "OBJ_298",
-            "OBJ_299"
-         );
-         defaultConfigurationIsVisible = "0";
-         defaultConfigurationName = "Release";
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_91";
       };
       "OBJ_298" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "ios-core-library.xcodeproj/ios_test_helpers_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "11.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "ios-test-helpers";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "ios-test-helpers";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Debug";
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_92";
       };
       "OBJ_299" = {
-         isa = "XCBuildConfiguration";
-         buildSettings = {
-            ENABLE_TESTABILITY = "YES";
-            FRAMEWORK_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
-            );
-            HEADER_SEARCH_PATHS = (
-               "$(inherited)"
-            );
-            INFOPLIST_FILE = "ios-core-library.xcodeproj/ios_test_helpers_Info.plist";
-            IPHONEOS_DEPLOYMENT_TARGET = "11.0";
-            LD_RUNPATH_SEARCH_PATHS = (
-               "$(inherited)",
-               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
-            );
-            MACOSX_DEPLOYMENT_TARGET = "10.10";
-            OTHER_CFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_LDFLAGS = (
-               "$(inherited)"
-            );
-            OTHER_SWIFT_FLAGS = (
-               "$(inherited)"
-            );
-            PRODUCT_BUNDLE_IDENTIFIER = "ios-test-helpers";
-            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-            SKIP_INSTALL = "YES";
-            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-               "$(inherited)"
-            );
-            SWIFT_VERSION = "5.0";
-            TARGET_NAME = "ios-test-helpers";
-            TVOS_DEPLOYMENT_TARGET = "9.0";
-            WATCHOS_DEPLOYMENT_TARGET = "2.0";
-         };
-         name = "Release";
+         isa = "PBXBuildFile";
+         fileRef = "OBJ_93";
       };
       "OBJ_3" = {
          isa = "XCBuildConfiguration";
@@ -1762,61 +1695,45 @@
          sourceTree = "<group>";
       };
       "OBJ_300" = {
-         isa = "PBXSourcesBuildPhase";
+         isa = "PBXFrameworksBuildPhase";
          files = (
             "OBJ_301",
             "OBJ_302",
             "OBJ_303",
-            "OBJ_304",
-            "OBJ_305",
-            "OBJ_306",
-            "OBJ_307",
-            "OBJ_308",
-            "OBJ_309",
-            "OBJ_310",
-            "OBJ_311",
-            "OBJ_312",
-            "OBJ_313",
-            "OBJ_314",
-            "OBJ_315",
-            "OBJ_316"
+            "OBJ_304"
          );
       };
       "OBJ_301" = {
          isa = "PBXBuildFile";
-         fileRef = "OBJ_83";
+         fileRef = "ios-test-helpers::ios-test-helpers::Product";
       };
       "OBJ_302" = {
          isa = "PBXBuildFile";
-         fileRef = "OBJ_84";
+         fileRef = "ios-core-library::ios-core-library::Product";
       };
       "OBJ_303" = {
          isa = "PBXBuildFile";
-         fileRef = "OBJ_85";
+         fileRef = "TrustKit::TrustKit::Product";
       };
       "OBJ_304" = {
          isa = "PBXBuildFile";
-         fileRef = "OBJ_86";
+         fileRef = "DeviceKit::DeviceKit::Product";
       };
       "OBJ_305" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_88";
-      };
-      "OBJ_306" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_89";
+         isa = "PBXTargetDependency";
+         target = "ios-test-helpers::ios-test-helpers";
       };
       "OBJ_307" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_90";
+         isa = "PBXTargetDependency";
+         target = "ios-core-library::ios-core-library";
       };
       "OBJ_308" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_91";
+         isa = "PBXTargetDependency";
+         target = "TrustKit::TrustKit";
       };
       "OBJ_309" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_92";
+         isa = "PBXTargetDependency";
+         target = "DeviceKit::DeviceKit";
       };
       "OBJ_31" = {
          isa = "PBXFileReference";
@@ -1824,20 +1741,103 @@
          sourceTree = "<group>";
       };
       "OBJ_310" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_93";
+         isa = "XCConfigurationList";
+         buildConfigurations = (
+            "OBJ_311",
+            "OBJ_312"
+         );
+         defaultConfigurationIsVisible = "0";
+         defaultConfigurationName = "Release";
       };
       "OBJ_311" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_94";
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "ios-core-library.xcodeproj/ios_test_helpers_Info.plist";
+            IPHONEOS_DEPLOYMENT_TARGET = "11.0";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "ios-test-helpers";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "5.0";
+            TARGET_NAME = "ios-test-helpers";
+            TVOS_DEPLOYMENT_TARGET = "9.0";
+            WATCHOS_DEPLOYMENT_TARGET = "2.0";
+         };
+         name = "Debug";
       };
       "OBJ_312" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_95";
+         isa = "XCBuildConfiguration";
+         buildSettings = {
+            ENABLE_TESTABILITY = "YES";
+            FRAMEWORK_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(PLATFORM_DIR)/Developer/Library/Frameworks"
+            );
+            HEADER_SEARCH_PATHS = (
+               "$(inherited)"
+            );
+            INFOPLIST_FILE = "ios-core-library.xcodeproj/ios_test_helpers_Info.plist";
+            IPHONEOS_DEPLOYMENT_TARGET = "11.0";
+            LD_RUNPATH_SEARCH_PATHS = (
+               "$(inherited)",
+               "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx"
+            );
+            MACOSX_DEPLOYMENT_TARGET = "10.10";
+            OTHER_CFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_LDFLAGS = (
+               "$(inherited)"
+            );
+            OTHER_SWIFT_FLAGS = (
+               "$(inherited)"
+            );
+            PRODUCT_BUNDLE_IDENTIFIER = "ios-test-helpers";
+            PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+            PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+            SKIP_INSTALL = "YES";
+            SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+               "$(inherited)"
+            );
+            SWIFT_VERSION = "5.0";
+            TARGET_NAME = "ios-test-helpers";
+            TVOS_DEPLOYMENT_TARGET = "9.0";
+            WATCHOS_DEPLOYMENT_TARGET = "2.0";
+         };
+         name = "Release";
       };
       "OBJ_313" = {
-         isa = "PBXBuildFile";
-         fileRef = "OBJ_96";
+         isa = "PBXSourcesBuildPhase";
+         files = (
+            "OBJ_314",
+            "OBJ_315",
+            "OBJ_316"
+         );
       };
       "OBJ_314" = {
          isa = "PBXBuildFile";
@@ -2076,7 +2076,7 @@
             "OBJ_6",
             "OBJ_7",
             "OBJ_72",
-            "OBJ_80",
+            "OBJ_94",
             "OBJ_141",
             "OBJ_147",
             "OBJ_148",
@@ -2258,7 +2258,9 @@
          isa = "PBXGroup";
          children = (
             "OBJ_74",
-            "OBJ_75"
+            "OBJ_75",
+            "OBJ_76",
+            "OBJ_89"
          );
          name = "ios-core-libraryTests";
          path = "Tests/ios-core-libraryTests";
@@ -2270,35 +2272,43 @@
          sourceTree = "<group>";
       };
       "OBJ_75" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_76",
-            "OBJ_77",
-            "OBJ_78",
-            "OBJ_79"
-         );
-         name = "Services";
-         path = "Services";
+         isa = "PBXFileReference";
+         path = "CoreUnitTestCase.swift";
          sourceTree = "<group>";
       };
       "OBJ_76" = {
-         isa = "PBXFileReference";
-         path = "CoreNetworkServiceTests.swift";
+         isa = "PBXGroup";
+         children = (
+            "OBJ_77",
+            "OBJ_78",
+            "OBJ_79",
+            "OBJ_80",
+            "OBJ_81",
+            "OBJ_82",
+            "OBJ_83",
+            "OBJ_84",
+            "OBJ_85",
+            "OBJ_86",
+            "OBJ_87",
+            "OBJ_88"
+         );
+         name = "Mock";
+         path = "Mock";
          sourceTree = "<group>";
       };
       "OBJ_77" = {
          isa = "PBXFileReference";
-         path = "CoreRequestBuilderTests.swift";
+         path = "CoreMockBase.swift";
          sourceTree = "<group>";
       };
       "OBJ_78" = {
          isa = "PBXFileReference";
-         path = "JourneyServiceTests.swift";
+         path = "MockAppInfoService.swift";
          sourceTree = "<group>";
       };
       "OBJ_79" = {
          isa = "PBXFileReference";
-         path = "NetworkSessionConfigurationServiceTests.swift";
+         path = "MockApplicationStateService.swift";
          sourceTree = "<group>";
       };
       "OBJ_8" = {
@@ -2325,87 +2335,60 @@
          sourceTree = "SOURCE_ROOT";
       };
       "OBJ_80" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_81",
-            "OBJ_101",
-            "OBJ_138"
-         );
-         name = "Dependencies";
-         path = "";
+         isa = "PBXFileReference";
+         path = "MockCoreHTTPService.swift";
          sourceTree = "<group>";
       };
       "OBJ_81" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_82",
-            "OBJ_100"
-         );
-         name = "ios-test-helpers 0.1.0";
-         path = "";
-         sourceTree = "SOURCE_ROOT";
+         isa = "PBXFileReference";
+         path = "MockCoreNamespaces.swift";
+         sourceTree = "<group>";
       };
       "OBJ_82" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_83",
-            "OBJ_84",
-            "OBJ_85",
-            "OBJ_86",
-            "OBJ_87"
-         );
-         name = "ios-test-helpers";
-         path = ".build/checkouts/ios-test-helpers/Sources/ios-test-helpers";
-         sourceTree = "SOURCE_ROOT";
+         isa = "PBXFileReference";
+         path = "MockCoreNetworkService.swift";
+         sourceTree = "<group>";
       };
       "OBJ_83" = {
          isa = "PBXFileReference";
-         path = "CoreTestCase.swift";
+         path = "MockDateService.swift";
          sourceTree = "<group>";
       };
       "OBJ_84" = {
          isa = "PBXFileReference";
-         path = "CoreTestConstants.swift";
+         path = "MockDeviceInfoService.swift";
          sourceTree = "<group>";
       };
       "OBJ_85" = {
          isa = "PBXFileReference";
-         path = "CoreTestHelpers.swift";
+         path = "MockInfoPListService.swift";
          sourceTree = "<group>";
       };
       "OBJ_86" = {
          isa = "PBXFileReference";
-         path = "CoreUnitTestCase.swift";
+         path = "MockJourneyService.swift";
          sourceTree = "<group>";
       };
       "OBJ_87" = {
-         isa = "PBXGroup";
-         children = (
-            "OBJ_88",
-            "OBJ_89",
-            "OBJ_90",
-            "OBJ_91",
-            "OBJ_92",
-            "OBJ_93",
-            "OBJ_94",
-            "OBJ_95",
-            "OBJ_96",
-            "OBJ_97",
-            "OBJ_98",
-            "OBJ_99"
-         );
-         name = "Mock";
-         path = "Mock";
+         isa = "PBXFileReference";
+         path = "MockSpinner.swift";
          sourceTree = "<group>";
       };
       "OBJ_88" = {
          isa = "PBXFileReference";
-         path = "CoreMockBase.swift";
+         path = "MockUserDefaults.swift";
          sourceTree = "<group>";
       };
       "OBJ_89" = {
-         isa = "PBXFileReference";
-         path = "MockAppInfoService.swift";
+         isa = "PBXGroup";
+         children = (
+            "OBJ_90",
+            "OBJ_91",
+            "OBJ_92",
+            "OBJ_93"
+         );
+         name = "Services";
+         path = "Services";
          sourceTree = "<group>";
       };
       "OBJ_9" = {
@@ -2415,52 +2398,69 @@
       };
       "OBJ_90" = {
          isa = "PBXFileReference";
-         path = "MockApplicationStateService.swift";
+         path = "CoreNetworkServiceTests.swift";
          sourceTree = "<group>";
       };
       "OBJ_91" = {
          isa = "PBXFileReference";
-         path = "MockCoreHTTPService.swift";
+         path = "CoreRequestBuilderTests.swift";
          sourceTree = "<group>";
       };
       "OBJ_92" = {
          isa = "PBXFileReference";
-         path = "MockCoreNamespaces.swift";
+         path = "JourneyServiceTests.swift";
          sourceTree = "<group>";
       };
       "OBJ_93" = {
          isa = "PBXFileReference";
-         path = "MockCoreNetworkService.swift";
+         path = "NetworkSessionConfigurationServiceTests.swift";
          sourceTree = "<group>";
       };
       "OBJ_94" = {
-         isa = "PBXFileReference";
-         path = "MockDateService.swift";
+         isa = "PBXGroup";
+         children = (
+            "OBJ_95",
+            "OBJ_101",
+            "OBJ_138"
+         );
+         name = "Dependencies";
+         path = "";
          sourceTree = "<group>";
       };
       "OBJ_95" = {
-         isa = "PBXFileReference";
-         path = "MockDeviceInfoService.swift";
-         sourceTree = "<group>";
+         isa = "PBXGroup";
+         children = (
+            "OBJ_96",
+            "OBJ_100"
+         );
+         name = "ios-test-helpers 0.1.4";
+         path = "";
+         sourceTree = "SOURCE_ROOT";
       };
       "OBJ_96" = {
-         isa = "PBXFileReference";
-         path = "MockInfoPListService.swift";
-         sourceTree = "<group>";
+         isa = "PBXGroup";
+         children = (
+            "OBJ_97",
+            "OBJ_98",
+            "OBJ_99"
+         );
+         name = "ios-test-helpers";
+         path = ".build/checkouts/ios-test-helpers/Sources/ios-test-helpers";
+         sourceTree = "SOURCE_ROOT";
       };
       "OBJ_97" = {
          isa = "PBXFileReference";
-         path = "MockJourneyService.swift";
+         path = "CoreTestCase.swift";
          sourceTree = "<group>";
       };
       "OBJ_98" = {
          isa = "PBXFileReference";
-         path = "MockSpinner.swift";
+         path = "CoreTestConstants.swift";
          sourceTree = "<group>";
       };
       "OBJ_99" = {
          isa = "PBXFileReference";
-         path = "MockUserDefaults.swift";
+         path = "CoreTestHelpers.swift";
          sourceTree = "<group>";
       };
       "TrustKit::SwiftPMPackageDescription" = {
@@ -2544,13 +2544,13 @@
          buildConfigurationList = "OBJ_279";
          buildPhases = (
             "OBJ_282",
-            "OBJ_287"
+            "OBJ_300"
          );
          dependencies = (
-            "OBJ_292",
-            "OBJ_294",
-            "OBJ_295",
-            "OBJ_296"
+            "OBJ_305",
+            "OBJ_307",
+            "OBJ_308",
+            "OBJ_309"
          );
          name = "ios-core-libraryTests";
          productName = "ios_core_libraryTests";
@@ -2576,9 +2576,9 @@
       };
       "ios-test-helpers::ios-test-helpers" = {
          isa = "PBXNativeTarget";
-         buildConfigurationList = "OBJ_297";
+         buildConfigurationList = "OBJ_310";
          buildPhases = (
-            "OBJ_300",
+            "OBJ_313",
             "OBJ_317"
          );
          dependencies = (
