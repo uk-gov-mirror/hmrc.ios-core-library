@@ -17,6 +17,7 @@
 @testable import ios_core_library
 import Foundation
 import XCTest
+import ios_test_helpers
 
 class RequestBuilderTests: CoreUnitTestCase {
     var sut: MobileCore.HTTP.RequestBuilder!
@@ -60,6 +61,17 @@ class RequestBuilderTests: CoreUnitTestCase {
 
         let expect = expectation(description: "Fraud prevention headers are added")
         var headers = [String: String]()
+
+        sut.fraudPrevention.set(fraudPreventionHeaders: [
+            "Gov-Client-Screens": "width=ScreenWidth&height=ScreenHeight&scaling-factor=2",
+            "Gov-Client-Timezone": "TimeZone",
+            "Gov-Vendor-Version": "appName=version.buildbuild",
+            "Gov-Client-Device-ID": "AppInstallId",
+            "Gov-Client-Window-Size": "width=ScreenWidth&height=ScreenHeight",
+            "Gov-Client-Connection-Method": "MOBILE_APP_DIRECT",
+            "Gov-Client-User-Agent": "iOS/12.0 (iPhoneX)",
+            "Gov-Client-Local-IPs": "111.111.111.111,222.222.222.222"
+        ])
         sut.build { (result) in
             switch result {
             case .success(let urlRequest):
