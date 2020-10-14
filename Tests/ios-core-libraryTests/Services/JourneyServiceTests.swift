@@ -16,6 +16,7 @@
 
 import XCTest
 import ios_core_library
+import ios_test_helpers
 
 class JourneyServiceTests: CoreUnitTestCase {
 
