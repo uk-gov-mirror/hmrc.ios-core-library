@@ -10,7 +10,9 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "ios-core-library",
-            targets: ["ios-core-library"]),
+            type: .dynamic,
+            targets: ["ios-core-library"]
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/devicekit/DeviceKit.git", from: "4.0.0"),
@@ -22,7 +24,7 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "ios-core-library",
-                dependencies: ["DeviceKit","TrustKit"]),
+            dependencies: ["DeviceKit", "TrustKit"]),
         .testTarget(
             name: "ios-core-libraryTests",
             dependencies: ["ios-core-library","ios-test-helpers"]),
