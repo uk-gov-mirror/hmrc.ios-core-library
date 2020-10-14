@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/hmrc/ios-test-helpers.git",
         "state": {
           "branch": null,
-          "revision": "aa849e19f9a16869224532a59137a6e6aee60820",
-          "version": "0.1.6"
+          "revision": "546e73fa12def203658a64fe6352222b7b160fa8",
+          "version": "0.1.8"
         }
       },
       {
