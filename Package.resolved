@@ -11,15 +11,6 @@
         }
       },
       {
-        "package": "ios-test-helpers",
-        "repositoryURL": "https://github.com/hmrc/ios-test-helpers.git",
-        "state": {
-          "branch": null,
-          "revision": "546e73fa12def203658a64fe6352222b7b160fa8",
-          "version": "0.1.8"
-        }
-      },
-      {
         "package": "TrustKit",
         "repositoryURL": "https://github.com/datatheorem/TrustKit.git",
         "state": {

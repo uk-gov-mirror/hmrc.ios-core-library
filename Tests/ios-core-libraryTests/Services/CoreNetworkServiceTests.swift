@@ -16,7 +16,6 @@
 
 @testable import ios_core_library
 import XCTest
-import ios_test_helpers
 
 class CoreNetworkServiceTests: CoreUnitTestCase {
 
