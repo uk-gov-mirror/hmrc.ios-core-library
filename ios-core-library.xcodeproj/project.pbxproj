@@ -381,11 +381,11 @@
       "OBJ_141" = {
          isa = "PBXGroup";
          children = (
-            "ios-core-library::ios-core-library::Product",
-            "ios-test-helpers::ios-test-helpers::Product",
-            "ios-core-library::ios-core-libraryTests::Product",
             "TrustKit::TrustKit::Product",
-            "DeviceKit::DeviceKit::Product"
+            "DeviceKit::DeviceKit::Product",
+            "ios-test-helpers::ios-test-helpers::Product",
+            "ios-core-library::ios-core-library::Product",
+            "ios-core-library::ios-core-libraryTests::Product"
          );
          name = "Products";
          path = "";
