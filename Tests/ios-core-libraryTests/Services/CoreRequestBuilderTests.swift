@@ -17,7 +17,6 @@
 @testable import ios_core_library
 import Foundation
 import XCTest
-import ios_test_helpers
 
 class RequestBuilderTests: CoreUnitTestCase {
     var sut: MobileCore.HTTP.RequestBuilder!

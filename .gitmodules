@@ -1,0 +1,3 @@
+[submodule "SubModule/ios-test-helper"]
+	path = SubModule/ios-test-helper
+	url = git@github.com:hmrc/ios-test-helpers.git
