@@ -213,4 +213,173 @@ class RequestBuilderTests: CoreUnitTestCase {
             }
         }
     }
+
+    func test_builderSucceeds_whenMethodIsGet_withDataParameter() {
+        // Given
+        let name = "ParameterName"
+        let value = "ParameterValue"
+        let json = [
+            name: value
+        ]
+        let data = try! JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+
+        // When
+        sut = MobileCore.HTTP.RequestBuilder(
+            url: URL(string: "\(RequestBuilderTests.unimportantURLString)")!,
+            method: .get,
+            data: data,
+            headers: [:])
+
+        // Then
+        let expect = expectation(description: "Expect build to succeed")
+        sut.build { (result) in
+            switch result {
+            case .success(let request):
+                guard let components = request.url?.queryStringComponents else {
+                    XCTFail("No query components")
+                    return
+                }
+                let dict = Dictionary(uniqueKeysWithValues: components.map{ ($0.name, $0.value) })
+                XCTAssertEqual(dict[name], value)
+                expect.fulfill()
+            case .failure:
+                XCTFail("Error building request")
+            }
+        }
+
+        waitForExpectations(timeout: Test.Timeout) { error in
+            if let error = error {
+                print("Build request timed out: \(String(describing: error))")
+            }
+        }
+    }
+
+    func test_builderSucceeds_whenMethodIsGet_withEncodableData() {
+        // Given
+        let name = "ParameterName"
+        let value = "ParameterValue"
+        struct SimpleEncodable: Codable {
+            let name: String
+            let value: String
+        }
+        let param = SimpleEncodable(name: name, value: value)
+        let data = try! JSONEncoder().encode(param)
+
+        // When
+        sut = MobileCore.HTTP.RequestBuilder(
+            url: URL(string: "\(RequestBuilderTests.unimportantURLString)")!,
+            method: .get,
+            data: data,
+            headers: [:])
+
+        // Then
+        let expect = expectation(description: "Expect build to succeed")
+        sut.build { (result) in
+            switch result {
+            case .success(let request):
+                guard let components = request.url?.queryStringComponents else {
+                    XCTFail("No query components")
+                    return
+                }
+                let dict = Dictionary(uniqueKeysWithValues: components.map{ ($0.name, $0.value) })
+                XCTAssertEqual(dict["name"], name)
+                XCTAssertEqual(dict["value"], value)
+                expect.fulfill()
+            case .failure:
+                XCTFail("Error building request")
+            }
+        }
+
+        waitForExpectations(timeout: Test.Timeout) { error in
+            if let error = error {
+                print("Build request timed out: \(String(describing: error))")
+            }
+        }
+    }
+
+    func test_builderSucceeds_whenMethodIsPost_withDataParameter() {
+        // Given
+        let name = "ParameterName"
+        let value = "ParameterValue"
+        let json = [
+            name: value
+        ]
+        let data = try! JSONSerialization.data(withJSONObject: json, options: .prettyPrinted)
+
+        // When
+        sut = MobileCore.HTTP.RequestBuilder(
+            url: URL(string: "\(RequestBuilderTests.unimportantURLString)")!,
+            method: .post,
+            data: data,
+            headers: [:])
+
+        // Then
+        let expect = expectation(description: "Expect build to succeed")
+        sut.build { (result) in
+            switch result {
+            case .success(let request):
+                guard let body = request.httpBody else {
+                    XCTFail("No request body")
+                    return
+                }
+                let requestJson = try! JSONSerialization.jsonObject(with: body, options: .allowFragments) as! [String: String]
+                XCTAssertEqual(requestJson[name], value)
+                expect.fulfill()
+            case .failure:
+                XCTFail("Error building request")
+            }
+        }
+
+        waitForExpectations(timeout: Test.Timeout) { error in
+            if let error = error {
+                print("Build request timed out: \(String(describing: error))")
+            }
+        }
+    }
+
+    func test_builderSucceeds_whenMethodIsPost_withEncodableData() {
+        // Given
+        let name = "ParameterName"
+        let value = "ParameterValue"
+        struct SimpleEncodable: Codable {
+            let name: String
+            let value: String
+        }
+        let param = SimpleEncodable(name: name, value: value)
+        let data = try! JSONEncoder().encode(param)
+
+        // When
+        sut = MobileCore.HTTP.RequestBuilder(
+            url: URL(string: "\(RequestBuilderTests.unimportantURLString)")!,
+            method: .post,
+            data: data,
+            headers: [:])
+
+        // Then
+        let expect = expectation(description: "Expect build to succeed")
+        sut.build { (result) in
+            switch result {
+            case .success(let request):
+                guard let body = request.httpBody else {
+                    XCTFail("No request body")
+                    return
+                }
+                let requestJSON = try! JSONSerialization.jsonObject(with: body, options: .allowFragments) as! [String: String]
+                let requestObject = try! JSONDecoder().decode(SimpleEncodable.self, from: body)
+                XCTAssertEqual(requestJSON["name"], name)
+                XCTAssertEqual(requestJSON["value"], value)
+                XCTAssertEqual(requestObject.name, name)
+                XCTAssertEqual(requestObject.value, value)
+                expect.fulfill()
+            case .failure:
+                XCTFail("Error building request")
+            }
+        }
+
+        waitForExpectations(timeout: Test.Timeout) { error in
+            if let error = error {
+                print("Build request timed out: \(String(describing: error))")
+            }
+        }
+    }
 }
