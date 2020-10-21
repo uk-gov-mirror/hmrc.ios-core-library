@@ -20,25 +20,9 @@ or alternatively using `brew install fastlane`
 ```
 fastlane ios tag_release
 ```
-Create a new tagged release of this library plus a synchronised relase of the associated mobile-ios-core-test library.
+Create a new tagged release of the library.
 
-This will bump the Info.plist versiona, precompile the librarowa, commit and tag the changes, then push up to master.
-
-Example:
-
-`fastlane tag_release tag:1.2.3`
-
-
-### ios update_dependencies
-```
-fastlane ios update_dependencies
-```
-Update dependencies.
-### ios check_dependencies
-```
-fastlane ios check_dependencies
-```
-Check for outdated carthage dependencies.
+This will bump the Info.plist version, precompile the library, commit and tag the changes, then push up to master.
 
 ----
 
