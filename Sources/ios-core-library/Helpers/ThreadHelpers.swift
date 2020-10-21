@@ -1,0 +1,35 @@
+/*
+ * Copyright 2019 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import UIKit
+
+public func mainThread(closure: @escaping () -> Void) {
+    delayedCall(0.0, closure: closure)
+}
+
+public func delayedCall(_ delayInSeconds: Double = 0.0, closure: @escaping () -> Void) {
+    guard !MobileCore.config.unitTests.areRunning else {
+        if Thread.isMainThread {
+            closure()
+        } else {
+            DispatchQueue.main.sync { closure() }
+        }
+        return
+    }
+    let delayInMilliSeconds = Int(delayInSeconds * 1000)
+    let nanoseconds = DispatchTime.now() + DispatchTimeInterval.milliseconds(delayInMilliSeconds)
+    DispatchQueue.main.asyncAfter(deadline: nanoseconds, execute: closure)
+}
