@@ -44,6 +44,18 @@ extension MobileCore.HTTP {
             super.init()
         }
 
+        public init(url: URL,
+                    method: Method = .get,
+                    data: Data?,
+                    headers: [String: String] = [:]) {
+
+            self.method = method
+            self.url = url
+            self.headers = headers
+            super.init()
+            self.setData(data)
+        }
+
         public func setMethod(_ method: MobileCore.HTTP.Method) -> MobileCore.HTTP.RequestBuilder {
             self.method = method
             return self
@@ -56,6 +68,19 @@ extension MobileCore.HTTP {
 
         public func setData(_ data: [String: Any]) -> MobileCore.HTTP.RequestBuilder {
             self.data = data
+            return self
+        }
+
+        @discardableResult public func setData(_ data: Data?) -> MobileCore.HTTP.RequestBuilder {
+            guard
+                let data = data,
+                let jsonData = try? JSONSerialization.jsonObject(with: data, options: .allowFragments),
+                let json = jsonData as? [String: Any]
+            else {
+                self.data = nil
+                return self
+            }
+            self.data = json
             return self
         }
 
