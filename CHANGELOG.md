@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Adding `fastlane` release process
 
 ## [2.4.6] - 2020-05-15
 ### Added
