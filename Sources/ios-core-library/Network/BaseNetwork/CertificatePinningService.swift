@@ -36,11 +36,9 @@ extension MobileCore.HTTP {
         private var certificatePinningEnabled = false
 
         private func initCertificatePinning(domains: [String: [String: Any]]) {
-            #if PROD
             TrustKit.initSharedInstance(withConfiguration: [
                 kTSKPinnedDomains: domains
             ])
-            #endif
         }
 
         public func enableCertificatePinning(using pinningModels: [Model]) {
@@ -65,8 +63,6 @@ extension MobileCore.HTTP {
         public func validate(challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
             let performDefaultHandling = URLSession.AuthChallengeDisposition.performDefaultHandling
 
-            #if PROD
-
             if certificatePinningEnabled {
                 let validator = TrustKit.sharedInstance().pinningValidator
                 if !validator.handle(challenge, completionHandler: completionHandler) {
@@ -75,10 +71,6 @@ extension MobileCore.HTTP {
             } else {
                 completionHandler(performDefaultHandling, nil)
             }
-
-            #else
-            completionHandler(performDefaultHandling, nil)
-            #endif
         }
     }
 }
