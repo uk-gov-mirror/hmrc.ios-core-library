@@ -29,8 +29,15 @@ extension MobileCore.HTTP {
         public struct Model {
             let url: String
             let publicKeys: [String]
-            var includeSubdomains = true
-            var enforcePinning = true
+            let includeSubdomains: Bool
+            let enforcePinning: Bool
+            
+            public init(url: String, publicKeys: [String], includeSubdomains: Bool = true, enforcePinning: Bool = true) {
+                self.url = url
+                self.publicKeys = publicKeys
+                self.includeSubdomains = includeSubdomains
+                self.enforcePinning = enforcePinning
+            }
         }
 
         private var certificatePinningEnabled = false
