@@ -54,14 +54,15 @@ extension MobileCore.Journey {
 
         public var journeyId: String {
             get {
-                guard !UITests.areRunning else { return "UI_Test_Journey_ID" }
-                if _journeyId == nil {
+                if UITests.areRunning { return "UI_Test_Journey_ID" }
+
+                if let id = _journeyId {
+                    return id
+                } else {
                     let guid = NSUUID().uuidString
                     _journeyId = guid
                     Log.info(message: "Generated new journey ID = '\(guid)'")
                 }
-
-                return _journeyId!
             }
             set {
                 _journeyId = newValue
