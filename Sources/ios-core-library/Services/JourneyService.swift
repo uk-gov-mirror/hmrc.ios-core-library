@@ -54,6 +54,7 @@ extension MobileCore.Journey {
 
         public var journeyId: String {
             get {
+                Log.info(message: "Get journeyId")
                 if UITests.areRunning { return "UI_Test_Journey_ID" }
 
                 if let id = _journeyId {
