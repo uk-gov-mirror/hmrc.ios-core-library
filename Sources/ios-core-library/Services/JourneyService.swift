@@ -57,14 +57,17 @@ extension MobileCore.Journey {
                 if UITests.areRunning { return "UI_Test_Journey_ID" }
 
                 if let id = _journeyId {
+                    Log.info(message: "Use existing journeyId: '\(id)'")
                     return id
                 } else {
                     let guid = NSUUID().uuidString
                     _journeyId = guid
-                    Log.info(message: "Generated new journey ID = '\(guid)'")
+                    Log.info(message: "Generated new journeyId: '\(guid)'")
+                    return guid
                 }
             }
             set {
+                Log.info(message: "Set journeyId: '\(newValue)'")
                 _journeyId = newValue
             }
         }
