@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Changed
+- Avoid force unwrap in journeyId getter
 - Removed PROD compile conditionals
 
 ## [2.0.10] - 2020-10-21
