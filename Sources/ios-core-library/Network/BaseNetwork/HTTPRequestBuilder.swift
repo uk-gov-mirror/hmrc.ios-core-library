@@ -129,11 +129,13 @@ extension MobileCore.HTTP {
                             case .get:
                                 request = try ParameterEncoding.url.encode(request, parameters: data)
                             case .post, .put:
-                                if request.value(forHTTPHeaderField: "Content-Type") == nil {
-                                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                                    request = try ParameterEncoding.json.encode(request, parameters: data)
+                                if request.value(forHTTPHeaderField: ContentType.key) == nil {
+                                    request.setValue(ContentType.json, forHTTPHeaderField: ContentType.key)
+                                }
+                                if request.value(forHTTPHeaderField: ContentType.key) == ContentType.formUrlEncoded {
+                                    request = try ParameterEncoding.form.encode(request, parameters: data)
                                 } else {
-                                    request = try ParameterEncoding.url.encode(request, parameters: data)
+                                    request = try ParameterEncoding.json.encode(request, parameters: data)
                                 }
                             case .delete:
                                 break // No parameters for delete
@@ -152,6 +154,12 @@ extension MobileCore.HTTP {
                     handler(.failure(error))
                 }
             }
+        }
+
+        private struct ContentType {
+            static let key = "Content-Type"
+            static let json = "application/json"
+            static let formUrlEncoded = "application/x-www-form-urlencoded"
         }
     }
 }

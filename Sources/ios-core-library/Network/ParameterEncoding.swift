@@ -20,8 +20,10 @@ public enum ParameterEncoding {
     public enum Errors: Error {
         case invalidURLError
     }
+
     case url
     case json
+    case form
 
     func encode(_ request: URLRequest, parameters: [String: Any]) throws -> URLRequest {
         guard let url = request.url else {
@@ -46,6 +48,27 @@ public enum ParameterEncoding {
             var mutableRequest = request
             mutableRequest.httpBody = json
             return mutableRequest
+        case .form:
+            var mutableRequest = request
+            mutableRequest.httpBody = encodeParameters(parameters: parameters)
+            return mutableRequest
         }
+    }
+
+    private func percentEscapeString(string: String) -> String {
+        let allowed = NSMutableCharacterSet.alphanumeric()
+        allowed.addCharacters(in: "-._* ")
+
+        return string
+            .addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)!
+            .replacingOccurrences(of: " ", with: "+")
+    }
+
+    private func encodeParameters(parameters: [String: Any]) -> Data? {
+        let parameterArray = parameters.map { (key, value) -> String in
+            "\(key)=\(percentEscapeString(string: value as? String ?? ""))"
+        }
+
+        return parameterArray.joined(separator: "&").data(using: .utf8)
     }
 }
