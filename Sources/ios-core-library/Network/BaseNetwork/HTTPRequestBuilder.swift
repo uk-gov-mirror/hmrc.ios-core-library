@@ -132,10 +132,13 @@ extension MobileCore.HTTP {
                                 if request.value(forHTTPHeaderField: ContentType.key) == nil {
                                     request.setValue(ContentType.json, forHTTPHeaderField: ContentType.key)
                                 }
-                                if request.value(forHTTPHeaderField: ContentType.key) == ContentType.formUrlEncoded {
+                                switch request.value(forHTTPHeaderField: ContentType.key)! {
+                                case ContentType.formUrlEncoded:
                                     request = try ParameterEncoding.form.encode(request, parameters: data)
-                                } else {
+                                case ContentType.json:
                                     request = try ParameterEncoding.json.encode(request, parameters: data)
+                                default:
+                                    request = try ParameterEncoding.url.encode(request, parameters: data)
                                 }
                             case .delete:
                                 break // No parameters for delete
