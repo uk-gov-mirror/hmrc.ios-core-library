@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Added per request custom caching policy option
 
 ## [2.1.0] - 2020-12-17
 - Added support for `application/x-www-form-urlencoded` content type
