@@ -102,7 +102,7 @@ extension MobileCore.HTTP {
         open func build(_ handler: @escaping (Result<URLRequest, Error>) -> Void ) {
             let url = modify(url: self.url)
             var request = URLRequest(url: url)
-
+            request.cachePolicy = .reloadIgnoringLocalCacheData
             request.httpMethod = method.rawValue
             let requestHeaders = request.allHTTPHeaderFields ?? [String: String]()
             let antiFraudHeaders = fraudPrevention.preventionHeaders
