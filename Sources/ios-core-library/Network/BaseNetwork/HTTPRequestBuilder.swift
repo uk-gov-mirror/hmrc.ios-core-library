@@ -99,10 +99,14 @@ extension MobileCore.HTTP {
             handler(.success([:]))
         }
 
+        open func customCachePolicy(_ handler: @escaping (URLRequest.CachePolicy) -> Void ) {
+            handler(.useProtocolCachePolicy)
+        }
+
         open func build(_ handler: @escaping (Result<URLRequest, Error>) -> Void ) {
             let url = modify(url: self.url)
             var request = URLRequest(url: url)
-            request.cachePolicy = .reloadIgnoringLocalCacheData
+
             request.httpMethod = method.rawValue
             let requestHeaders = request.allHTTPHeaderFields ?? [String: String]()
             let antiFraudHeaders = fraudPrevention.preventionHeaders
@@ -114,8 +118,11 @@ extension MobileCore.HTTP {
                 antiFraudHeaders.forEach {allHeaders[$0] = $1 }
             }
 
+            customCachePolicy { cachePolicy in
+                request.cachePolicy = cachePolicy
+            }
             //Generate additional headers
-            self.additionalHeaders {[weak self] result in
+            self.additionalHeaders { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case let .success(headers):
