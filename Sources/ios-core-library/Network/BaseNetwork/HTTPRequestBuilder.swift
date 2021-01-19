@@ -24,13 +24,15 @@ extension MobileCore.HTTP {
         }
 
         public private(set) var method: MobileCore.HTTP.Method = .get
-        public private(set) var url: URL
+        public private(set) var url: URL!
         public private(set) var data: [String: Any]?
         public private(set) var headers: [String: String]?
         ///Set to false to stop anti fraud headers being appended to request. Defaults to true
         public var includeAntiFraudHeaders = true
         ///A final chance to modify the request generated as result of call to build(_:)
         public var modifyRequest: ModifyNetworkRequest!
+
+        public override init() {}
 
         public init(url: URL,
                     method: Method = .get,
@@ -56,17 +58,17 @@ extension MobileCore.HTTP {
             self.setData(data)
         }
 
-        public func setMethod(_ method: MobileCore.HTTP.Method) -> MobileCore.HTTP.RequestBuilder {
+        @discardableResult public func setMethod(_ method: MobileCore.HTTP.Method) -> MobileCore.HTTP.RequestBuilder {
             self.method = method
             return self
         }
 
-        public func setUrl(_ url: URL) -> MobileCore.HTTP.RequestBuilder {
+        @discardableResult public func setUrl(_ url: URL) -> MobileCore.HTTP.RequestBuilder {
             self.url = url
             return self
         }
 
-        public func setData(_ data: [String: Any]) -> MobileCore.HTTP.RequestBuilder {
+        @discardableResult public func setData(_ data: [String: Any]) -> MobileCore.HTTP.RequestBuilder {
             self.data = data
             return self
         }
@@ -84,7 +86,7 @@ extension MobileCore.HTTP {
             return self
         }
 
-        public func setHeaders(_ headers: [String: String]) -> MobileCore.HTTP.RequestBuilder {
+        @discardableResult public func setHeaders(_ headers: [String: String]) -> MobileCore.HTTP.RequestBuilder {
             self.headers = headers
             return self
         }
