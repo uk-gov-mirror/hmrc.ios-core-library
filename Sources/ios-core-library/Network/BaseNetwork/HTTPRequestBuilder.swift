@@ -32,6 +32,8 @@ extension MobileCore.HTTP {
         ///A final chance to modify the request generated as result of call to build(_:)
         public var modifyRequest: ModifyNetworkRequest!
 
+        public init() {}
+        
         public init(url: URL,
                     method: Method = .get,
                     data: [String: Any] = [:],
