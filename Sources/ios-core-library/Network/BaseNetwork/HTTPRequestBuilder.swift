@@ -24,7 +24,7 @@ extension MobileCore.HTTP {
         }
 
         public private(set) var method: MobileCore.HTTP.Method = .get
-        public private(set) var url: URL
+        public private(set) var url: URL!
         public private(set) var data: [String: Any]?
         public private(set) var headers: [String: String]?
         ///Set to false to stop anti fraud headers being appended to request. Defaults to true
