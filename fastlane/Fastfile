@@ -50,7 +50,11 @@ platform :ios do
 
     # commit changes
     git_commit(
-      path: "./CHANGELOG.md",
+      path: [
+        "./CHANGELOG.md",
+        "ios-core-library.xcodeproj/ios_core_library_Info.plist", 
+        "ios-core-library.xcodeproj/ios_core_libraryTests_Info.plist"
+            ],
       message: "Bump version to #{tag} and tagging release"
     )
     push_to_git_remote
