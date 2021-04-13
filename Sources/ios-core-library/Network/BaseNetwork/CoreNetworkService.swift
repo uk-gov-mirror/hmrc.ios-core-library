@@ -20,6 +20,7 @@ public typealias NetworkHandler = ((Result<MobileCore.HTTP.Response, MobileCore.
 public protocol CoreNetworkService {
     var auditDelegate: NetworkServiceAuditDelegate! { get set }
     var analyticsDelegate: NetworkServiceAnalyticsDelegate! { get set }
+    var responseHandler: CoreResponseHandler! { get set }
 
     func data(request: MobileCore.HTTP.RequestBuilder,
               sessionType: MobileCore.Network.SessionType,
@@ -42,6 +43,10 @@ public protocol NetworkServiceAuditDelegate: class {
 
 public protocol NetworkServiceAnalyticsDelegate: class {
     func trackAnalyticEvent(eventCategory: String, eventAction: String, eventLabel: String?, eventValue: NSNumber?)
+}
+
+public protocol NetworkServiceAuthenticationDelegate: class {
+    func didReceive401() -> Bool
 }
 
 open class APIService: CoreNetworkServiceInjected {
@@ -90,56 +95,59 @@ extension MobileCore.Network {
         }
     }
 
-    public static func configure(analyticsDelegate: NetworkServiceAnalyticsDelegate, auditDelegate: NetworkServiceAuditDelegate) {
+    public static func configure(analyticsDelegate: NetworkServiceAnalyticsDelegate, auditDelegate: NetworkServiceAuditDelegate, responseHandler: CoreResponseHandler?) {
         var networkService: CoreNetworkService = MobileCore.Injection.Service.network.injectedObject()
         networkService.analyticsDelegate = analyticsDelegate
         networkService.auditDelegate = auditDelegate
+        networkService.responseHandler = responseHandler ?? ResponseHandler()
     }
 
     open class Service: BaseNetworkSpinnerConsumer, CoreNetworkService {
         public weak var auditDelegate: NetworkServiceAuditDelegate!
         public weak var analyticsDelegate: NetworkServiceAnalyticsDelegate!
+        public weak var responseHandler: CoreResponseHandler!
+
         let errorDomain = "uk.gov.hmrc"
 
-        // swiftlint:disable:next cyclomatic_complexity
-        open func handle(request: URLRequest,
-                         response: MobileCore.HTTP.Response,
-                         _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
-            do {
-                let urlResponse = response.response!
-                let statusCode = urlResponse.statusCode
-                let error = NSError(domain: errorDomain, code: statusCode, userInfo: nil)
-                self.trackAuditEventIfRequired(request: request, data: response.value, response: urlResponse)
-                switch statusCode {
-                case 410:
-                    throw self.handle410(request: request, response: response)
-                case 200..<400:
-                    self.handle200To399(request: request, response: response, handler)
-                case 401, 403:
-                    throw self.handle401And403(request: request, response: response)
-                case 404:
-                    throw self.handle404(request: request, response: response)
-                case 423:
-                    throw self.handle423(request: request, response: response)
-                case 400..<500:
-                    throw self.handle4XX(request: request, response: response, error: error)
-                case 503:
-                    throw self.handle503(request: request, response: response)
-                case 521:
-                    throw self.handle521(request: request, response: response)
-                case 500...599:
-                    throw self.handle500To599(request: request, response: response, error: error)
-                default:
-                    throw self.handleAnyOtherError(request: request, response: response, error: error)
-                }
-            } catch {
-                if let error = error as? ServiceError {
-                    handler(.failure(error))
-                } else {
-                    handler(.failure(ServiceError.unrecoverable(error: error)))
-                }
-            }
-        }
+//        // swiftlint:disable:next cyclomatic_complexity
+//        open func handle(request: URLRequest,
+//                         response: MobileCore.HTTP.Response,
+//                         _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
+//            do {
+//                let urlResponse = response.response!
+//                let statusCode = urlResponse.statusCode
+//                let error = NSError(domain: errorDomain, code: statusCode, userInfo: nil)
+//                self.trackAuditEventIfRequired(request: request, data: response.value, response: urlResponse)
+//                switch statusCode {
+//                case 410:
+//                    throw self.handle410(request: request, response: response)
+//                case 200..<400:
+//                    self.handle200To399(request: request, response: response, handler)
+//                case 401, 403:
+//                    throw self.handle401And403(request: request, response: response)
+//                case 404:
+//                    throw self.handle404(request: request, response: response)
+//                case 423:
+//                    throw self.handle423(request: request, response: response)
+//                case 400..<500:
+//                    throw self.handle4XX(request: request, response: response, error: error)
+//                case 503:
+//                    throw self.handle503(request: request, response: response)
+//                case 521:
+//                    throw self.handle521(request: request, response: response)
+//                case 500...599:
+//                    throw self.handle500To599(request: request, response: response, error: error)
+//                default:
+//                    throw self.handleAnyOtherError(request: request, response: response, error: error)
+//                }
+//            } catch {
+//                if let error = error as? ServiceError {
+//                    handler(.failure(error))
+//                } else {
+//                    handler(.failure(ServiceError.unrecoverable(error: error)))
+//                }
+//            }
+//        }
 
         var pendingRequests = [MobileCore.HTTP.RequestBuilder]()
 
