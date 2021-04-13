@@ -22,6 +22,10 @@ extension MobileCore.Network {
         public weak var auditDelegate: NetworkServiceAuditDelegate!
         public weak var analyticsDelegate: NetworkServiceAnalyticsDelegate!
         let errorDomain = "uk.gov.hmrc"
+
+        public init() {
+            
+        }
         
         // swiftlint:disable:next cyclomatic_complexity
         open func handle(request: URLRequest,
