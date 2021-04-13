@@ -93,9 +93,9 @@ extension MobileCore.Network {
         }
     }
 
-    public static func configure(responseHandler: CoreResponseHandler?) {
+    public static func configure(responseHandler: CoreResponseHandler) {
         var networkService: CoreNetworkService = MobileCore.Injection.Service.network.injectedObject()
-        networkService.responseHandler = responseHandler ?? ResponseHandler()
+        networkService.responseHandler = responseHandler
     }
 
     open class Service: BaseNetworkSpinnerConsumer, CoreNetworkService {

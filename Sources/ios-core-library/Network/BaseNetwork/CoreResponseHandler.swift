@@ -23,8 +23,9 @@ extension MobileCore.Network {
         public weak var analyticsDelegate: NetworkServiceAnalyticsDelegate!
         let errorDomain = "uk.gov.hmrc"
 
-        public init() {
-            
+        public init(auditDelegate: NetworkServiceAuditDelegate, analyticsDelegate: NetworkServiceAnalyticsDelegate) {
+            self.auditDelegate = auditDelegate
+            self.analyticsDelegate = analyticsDelegate
         }
         
         // swiftlint:disable:next cyclomatic_complexity
