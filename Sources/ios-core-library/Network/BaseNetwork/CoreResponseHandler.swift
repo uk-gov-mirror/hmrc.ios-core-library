@@ -8,9 +8,6 @@
 import Foundation
 
 public protocol CoreResponseHandler: class {
-    var auditDelegate: NetworkServiceAuditDelegate! { get set }
-    var analyticsDelegate: NetworkServiceAnalyticsDelegate! { get set }
-
     func handle(request: URLRequest,
                      response: MobileCore.HTTP.Response,
                      _ handler: @escaping (Result<MobileCore.HTTP.Response, MobileCore.Network.ServiceError>) -> Void)
@@ -19,8 +16,8 @@ public protocol CoreResponseHandler: class {
 
 extension MobileCore.Network {
     open class ResponseHandler: CoreResponseHandler, CoreNetworkServiceInjected {
-        public weak var auditDelegate: NetworkServiceAuditDelegate!
-        public weak var analyticsDelegate: NetworkServiceAnalyticsDelegate!
+        weak var auditDelegate: NetworkServiceAuditDelegate!
+        weak var analyticsDelegate: NetworkServiceAnalyticsDelegate!
         let errorDomain = "uk.gov.hmrc"
 
         public init(auditDelegate: NetworkServiceAuditDelegate, analyticsDelegate: NetworkServiceAnalyticsDelegate) {
