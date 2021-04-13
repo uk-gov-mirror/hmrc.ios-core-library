@@ -7,28 +7,22 @@
 
 import Foundation
 
-protocol CoreResponseHandler {
+public protocol CoreResponseHandler: class {
+    var auditDelegate: NetworkServiceAuditDelegate! { get set }
+    var analyticsDelegate: NetworkServiceAnalyticsDelegate! { get set }
+
     func handle(request: URLRequest,
                      response: MobileCore.HTTP.Response,
-                     _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void)
-//    func handle200To399(request: URLRequest,
-//                        response: MobileCore.HTTP.Response,
-//                        _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void)
-//    func handle401And403(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError
-//    func handle404(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError
-//    func handle4XX(request: URLRequest, response: MobileCore.HTTP.Response, error: NSError) -> ServiceError
-//    func handle423(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError
-//    func handle410(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError
-//    ///Shuttering for core (OLD needs to go)
-//    func handle503(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError
-//    func handle521(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError
-//    func handle500To599(request: URLRequest, response: MobileCore.HTTP.Response, error: NSError) -> ServiceError
-//    func handleAnyOtherError(request: URLRequest, response: MobileCore.HTTP.Response?, error: NSError) -> ServiceError
+                     _ handler: @escaping (Result<MobileCore.HTTP.Response, MobileCore.Network.ServiceError>) -> Void)
+    func handleError(request: URLRequest, response: MobileCore.HTTP.Response?, error: NSError) -> MobileCore.Network.ServiceError
 }
 
 extension MobileCore.Network {
-    open class ResponseHandler: CoreResponseHandler {
-
+    open class ResponseHandler: CoreResponseHandler, CoreNetworkServiceInjected {
+        public weak var auditDelegate: NetworkServiceAuditDelegate!
+        public weak var analyticsDelegate: NetworkServiceAnalyticsDelegate!
+        let errorDomain = "uk.gov.hmrc"
+        
         // swiftlint:disable:next cyclomatic_complexity
         open func handle(request: URLRequest,
                          response: MobileCore.HTTP.Response,
@@ -37,7 +31,7 @@ extension MobileCore.Network {
                 let urlResponse = response.response!
                 let statusCode = urlResponse.statusCode
                 let error = NSError(domain: errorDomain, code: statusCode, userInfo: nil)
-                self.trackAuditEventIfRequired(request: request, data: response.value, response: urlResponse)
+                trackAuditEventIfRequired(request: request, data: response.value, response: urlResponse)
                 switch statusCode {
                 case 410:
                     throw self.handle410(request: request, response: response)
@@ -58,7 +52,7 @@ extension MobileCore.Network {
                 case 500...599:
                     throw self.handle500To599(request: request, response: response, error: error)
                 default:
-                    throw self.handleAnyOtherError(request: request, response: response, error: error)
+                    throw self.handleError(request: request, response: response, error: error)
                 }
             } catch {
                 if let error = error as? ServiceError {
@@ -123,13 +117,35 @@ extension MobileCore.Network {
             return .retryable(error: error)
         }
 
-        open func handleAnyOtherError(request: URLRequest, response: MobileCore.HTTP.Response?, error: NSError) -> ServiceError {
+        open func handleError(request: URLRequest, response: MobileCore.HTTP.Response?, error: NSError) -> ServiceError {
             switch error.domain {
             case "cfNetworkDomain", "NSURLErrorDomain":
                 return ServiceError.internetConnectivityIssue(error: error)
             default:
                 return .unrecoverable(error: error)
             }
+        }
+
+        // MARK: - Helpers
+        func trackAnalyticEvent(eventCategory: String, eventAction: String, eventLabel: String?, eventValue: NSNumber? = nil) {
+            guard let analyticsDelegate = analyticsDelegate else {
+                Log.info(message: "No analytics delegate setup! Call Network.configure(analyticsDelegate:, auditDelegate:)")
+                return
+            }
+            analyticsDelegate.trackAnalyticEvent(
+                    eventCategory: eventCategory,
+                    eventAction: eventAction,
+                    eventLabel: eventLabel,
+                    eventValue: eventValue
+            )
+        }
+
+        private func trackAuditEventIfRequired(request: URLRequest, data: Data, response: URLResponse) {
+            guard let auditDelegate = auditDelegate else {
+                Log.info(message: "No audit delegate setup! Call Network.configure(analyticsDelegate:, auditDelegate:)")
+                return
+            }
+            auditDelegate.trackAuditEventIfRequired(request: request, data: data, response: response)
         }
     }
 }
