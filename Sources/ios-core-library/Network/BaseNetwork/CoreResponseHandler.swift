@@ -134,7 +134,7 @@ extension MobileCore.Network {
         }
 
         // MARK: - Helpers
-        func trackAnalyticEvent(eventCategory: String, eventAction: String, eventLabel: String?, eventValue: NSNumber? = nil) {
+        open func trackAnalyticEvent(eventCategory: String, eventAction: String, eventLabel: String?, eventValue: NSNumber? = nil) {
             guard let analyticsDelegate = analyticsDelegate else {
                 Log.info(message: "No analytics delegate setup! Call Network.configure(analyticsDelegate:, auditDelegate:)")
                 return
@@ -147,7 +147,7 @@ extension MobileCore.Network {
             )
         }
 
-        private func trackAuditEventIfRequired(request: MobileCore.HTTP.RequestBuilder, data: Data, response: URLResponse) {
+        open func trackAuditEventIfRequired(request: MobileCore.HTTP.RequestBuilder, data: Data, response: URLResponse) {
             guard let auditDelegate = auditDelegate else {
                 Log.info(message: "No audit delegate setup! Call Network.configure(analyticsDelegate:, auditDelegate:)")
                 return
