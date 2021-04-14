@@ -20,12 +20,12 @@ import XCTest
 class CoreNetworkServiceTests: CoreUnitTestCase {
 
     class NetworkAuditDelegate: NetworkServiceAuditDelegate {
-        var lastRequest: URLRequest!
+        var lastRequest: MobileCore.HTTP.RequestBuilder!
         var lastResponseBody: String!
         var lastResponseStatusCode: Int!
         var trackAuditEventCallCount = 0
 
-        func trackAuditEventIfRequired(request: URLRequest, data: Data, response: URLResponse) {
+        func trackAuditEventIfRequired(request: MobileCore.HTTP.RequestBuilder, data: Data, response: URLResponse) {
             trackAuditEventCallCount += 1
             guard let httpResponse = response as? HTTPURLResponse else { return }
             let statusCode = httpResponse.statusCode

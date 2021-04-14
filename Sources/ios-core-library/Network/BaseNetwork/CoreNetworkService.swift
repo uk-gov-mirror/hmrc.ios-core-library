@@ -36,7 +36,7 @@ public protocol Endpoint {
 }
 
 public protocol NetworkServiceAuditDelegate: class {
-    func trackAuditEventIfRequired(request: URLRequest, data: Data, response: URLResponse)
+    func trackAuditEventIfRequired(request: MobileCore.HTTP.RequestBuilder, data: Data, response: URLResponse)
 }
 
 public protocol NetworkServiceAnalyticsDelegate: class {
@@ -121,11 +121,11 @@ extension MobileCore.Network {
                 }
                 mainThread {
                     switch result {
-                    case let .success(request):
-                        self.showSpinnerIfRequiredForURL(request.url!)
-                        self.coreHTTPService.send(request, sessionType: sessionType, { (result) in
+                    case let .success(req):
+                        self.showSpinnerIfRequiredForURL(req.url!)
+                        self.coreHTTPService.send(req, sessionType: sessionType, { (result) in
                             mainThread {
-                                self.hideSpinnerIfRequiredForURL(request.url!)
+                                self.hideSpinnerIfRequiredForURL(req.url!)
                                 switch result {
                                 case let .success(response):
                                     self.responseHandler.handle(request: request, response: response, handler)

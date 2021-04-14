@@ -8,10 +8,12 @@
 import Foundation
 
 public protocol CoreResponseHandler: class {
-    func handle(request: URLRequest,
-                     response: MobileCore.HTTP.Response,
-                     _ handler: @escaping (Result<MobileCore.HTTP.Response, MobileCore.Network.ServiceError>) -> Void)
-    func handleError(request: URLRequest, response: MobileCore.HTTP.Response?, error: NSError) -> MobileCore.Network.ServiceError
+    func handle(request: MobileCore.HTTP.RequestBuilder,
+                response: MobileCore.HTTP.Response,
+                _ handler: @escaping (Result<MobileCore.HTTP.Response, MobileCore.Network.ServiceError>) -> Void)
+    func handleError(request: MobileCore.HTTP.RequestBuilder,
+                     response: MobileCore.HTTP.Response?,
+                     error: NSError) -> MobileCore.Network.ServiceError
 }
 
 extension MobileCore.Network {
@@ -26,7 +28,7 @@ extension MobileCore.Network {
         }
         
         // swiftlint:disable:next cyclomatic_complexity
-        open func handle(request: URLRequest,
+        open func handle(request: MobileCore.HTTP.RequestBuilder,
                          response: MobileCore.HTTP.Response,
                          _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
             do {
@@ -66,41 +68,41 @@ extension MobileCore.Network {
         }
 
         open func handle200To399(
-                request: URLRequest,
+                request: MobileCore.HTTP.RequestBuilder,
                 response: MobileCore.HTTP.Response,
                 _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
             handler(.success(response))
         }
 
-        open func handle401And403(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError {
+        open func handle401And403(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response) -> ServiceError {
             trackAnalyticEvent(eventCategory: "errors", eventAction: "forbidden", eventLabel: "403 forbidden")
             return .logout
         }
 
-        open func handle404(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError {
+        open func handle404(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response) -> ServiceError {
             return .notFound
         }
 
-        open func handle4XX(request: URLRequest, response: MobileCore.HTTP.Response, error: NSError) -> ServiceError {
+        open func handle4XX(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response, error: NSError) -> ServiceError {
             return .unrecoverable(error: error)
         }
 
-        open func handle423(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError {
+        open func handle423(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response) -> ServiceError {
             return .mci
         }
 
-        open func handle410(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError {
+        open func handle410(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response) -> ServiceError {
             return .deceased
         }
 
         ///Shuttering for core (OLD needs to go)
-        open func handle503(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError {
+        open func handle503(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response) -> ServiceError {
             let shutteringError = ServiceError.shuttered(ShutteredModel(
                     title: "Sorry, there is a problem with the service", message: "Try again later."))
             return shutteringError
         }
 
-        open func handle521(request: URLRequest, response: MobileCore.HTTP.Response) -> ServiceError {
+        open func handle521(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response) -> ServiceError {
             do {
                 var model = try JSONDecoder().decode(ShutteredModel.self, from: response.value)
                 let defaultTitle = ShutteredModel.default.title
@@ -115,11 +117,11 @@ extension MobileCore.Network {
             }
         }
 
-        open func handle500To599(request: URLRequest, response: MobileCore.HTTP.Response, error: NSError) -> ServiceError {
+        open func handle500To599(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response, error: NSError) -> ServiceError {
             return .retryable(error: error)
         }
 
-        open func handleError(request: URLRequest, response: MobileCore.HTTP.Response?, error: NSError) -> ServiceError {
+        open func handleError(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response?, error: NSError) -> ServiceError {
             switch error.domain {
             case "cfNetworkDomain", "NSURLErrorDomain":
                 return ServiceError.internetConnectivityIssue(error: error)
@@ -142,7 +144,7 @@ extension MobileCore.Network {
             )
         }
 
-        private func trackAuditEventIfRequired(request: URLRequest, data: Data, response: URLResponse) {
+        private func trackAuditEventIfRequired(request: MobileCore.HTTP.RequestBuilder, data: Data, response: URLResponse) {
             guard let auditDelegate = auditDelegate else {
                 Log.info(message: "No audit delegate setup! Call Network.configure(analyticsDelegate:, auditDelegate:)")
                 return
