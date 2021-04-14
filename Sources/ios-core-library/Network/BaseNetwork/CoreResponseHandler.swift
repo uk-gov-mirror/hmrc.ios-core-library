@@ -77,7 +77,7 @@ extension MobileCore.Network {
         open func handle401And403(
             request: MobileCore.HTTP.RequestBuilder,
             response: MobileCore.HTTP.Response,
-            _ handler: (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) -> ServiceError {
+            _ handler: (Swift.Result<MobileCore.HTTP.Response, ServiceError>) -> Void) -> ServiceError {
             trackAnalyticEvent(eventCategory: "errors", eventAction: "forbidden", eventLabel: "403 forbidden")
             return .logout
         }
