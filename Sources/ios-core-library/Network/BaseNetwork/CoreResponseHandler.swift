@@ -42,7 +42,7 @@ extension MobileCore.Network {
                 case 200..<400:
                     self.handle200To399(request: request, response: response, handler)
                 case 401, 403:
-                    throw self.handle401And403(request: request, response: response)
+                    throw self.handle401And403(request: request, response: response, handler)
                 case 404:
                     throw self.handle404(request: request, response: response)
                 case 423:
@@ -68,13 +68,16 @@ extension MobileCore.Network {
         }
 
         open func handle200To399(
-                request: MobileCore.HTTP.RequestBuilder,
-                response: MobileCore.HTTP.Response,
-                _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
+            request: MobileCore.HTTP.RequestBuilder,
+            response: MobileCore.HTTP.Response,
+            _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
             handler(.success(response))
         }
 
-        open func handle401And403(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response) -> ServiceError {
+        open func handle401And403(
+            request: MobileCore.HTTP.RequestBuilder,
+            response: MobileCore.HTTP.Response,
+            _ handler: (Result<MobileCore.HTTP.Response, ServiceError>)) -> ServiceError {
             trackAnalyticEvent(eventCategory: "errors", eventAction: "forbidden", eventLabel: "403 forbidden")
             return .logout
         }
