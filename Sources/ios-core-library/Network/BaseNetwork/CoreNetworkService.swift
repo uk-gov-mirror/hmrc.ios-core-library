@@ -103,7 +103,7 @@ extension MobileCore.Network {
     }
 
     open class Service: BaseNetworkSpinnerConsumer, CoreNetworkService {
-        public weak var responseHandler: CoreResponseHandler!
+        public var responseHandler: CoreResponseHandler!
 
         var pendingRequests = [MobileCore.HTTP.RequestBuilder]()
 
