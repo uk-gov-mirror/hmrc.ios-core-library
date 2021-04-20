@@ -23,6 +23,10 @@ public protocol CoreNetworkService {
     func data(request: MobileCore.HTTP.RequestBuilder,
               sessionType: MobileCore.Network.SessionType,
               _ handler: @escaping NetworkHandler)
+    func data(request: MobileCore.HTTP.RequestBuilder,
+              sessionType: MobileCore.Network.SessionType,
+              attempt: Int,
+              _ handler: @escaping NetworkHandler)
     func cancelRequests()
 }
 
@@ -103,10 +107,7 @@ extension MobileCore.Network {
 
         var pendingRequests = [MobileCore.HTTP.RequestBuilder]()
 
-        open func data(
-                request: MobileCore.HTTP.RequestBuilder,
-                sessionType: MobileCore.Network.SessionType,
-                _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
+        open func data(request: MobileCore.HTTP.RequestBuilder, sessionType: MobileCore.Network.SessionType, attempt: Int, _ handler: @escaping NetworkHandler) {
             //need to store a ref to the builder as the build process is async and the method that called data(request:_:) will probably
             //have fallen out of scope by the time this is called
             pendingRequests.append(request)
@@ -128,9 +129,9 @@ extension MobileCore.Network {
                                 self.hideSpinnerIfRequiredForURL(req.url!)
                                 switch result {
                                 case let .success(response):
-                                    self.responseHandler.handle(request: request, response: response, handler)
+                                    self.responseHandler.handle(request: request, response: response, attempt: attempt, handler)
                                 case let .failure(error):
-                                    let error = self.responseHandler.handleError(request: request, response: nil, error: error as NSError)
+                                    let error = self.responseHandler.handleError(request: request, response: nil, attempt: attempt, error: error as NSError)
                                     handler(.failure(error))
                                 }
                             }
@@ -141,6 +142,13 @@ extension MobileCore.Network {
                     }
                 }
             }
+        }
+        
+        open func data(
+                request: MobileCore.HTTP.RequestBuilder,
+                sessionType: MobileCore.Network.SessionType,
+                _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
+            self.data(request: request, sessionType: sessionType, attempt: 0, handler)
         }
 
         open func cancelRequests() {

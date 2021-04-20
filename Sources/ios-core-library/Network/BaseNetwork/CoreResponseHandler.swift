@@ -10,9 +10,11 @@ import Foundation
 public protocol CoreResponseHandler: class {
     func handle(request: MobileCore.HTTP.RequestBuilder,
                 response: MobileCore.HTTP.Response,
+                attempt: Int,
                 _ handler: @escaping (Result<MobileCore.HTTP.Response, MobileCore.Network.ServiceError>) -> Void)
     func handleError(request: MobileCore.HTTP.RequestBuilder,
                      response: MobileCore.HTTP.Response?,
+                     attempt: Int,
                      error: NSError) -> MobileCore.Network.ServiceError
 }
 
@@ -30,6 +32,7 @@ extension MobileCore.Network {
         // swiftlint:disable:next cyclomatic_complexity
         open func handle(request: MobileCore.HTTP.RequestBuilder,
                          response: MobileCore.HTTP.Response,
+                         attempt: Int,
                          _ handler: @escaping (Result<MobileCore.HTTP.Response, ServiceError>) -> Void) {
             do {
                 let urlResponse = response.response!
@@ -42,7 +45,7 @@ extension MobileCore.Network {
                 case 200..<400:
                     self.handle200To399(request: request, response: response, handler)
                 case 401, 403:
-                    try self.handle401And403(request: request, response: response, handler)
+                    try self.handle401And403(request: request, response: response, attempt: attempt, handler)
                 case 404:
                     throw self.handle404(request: request, response: response)
                 case 423:
@@ -56,7 +59,7 @@ extension MobileCore.Network {
                 case 500...599:
                     throw self.handle500To599(request: request, response: response, error: error)
                 default:
-                    throw self.handleError(request: request, response: response, error: error)
+                    throw self.handleError(request: request, response: response, attempt: attempt, error: error)
                 }
             } catch {
                 if let error = error as? ServiceError {
@@ -77,6 +80,7 @@ extension MobileCore.Network {
         open func handle401And403(
             request: MobileCore.HTTP.RequestBuilder,
             response: MobileCore.HTTP.Response,
+            attempt: Int,
             _ handler: @escaping (Swift.Result<MobileCore.HTTP.Response, ServiceError>) -> Void) throws {
             trackAnalyticEvent(eventCategory: "errors", eventAction: "forbidden", eventLabel: "403 forbidden")
             throw ServiceError.logout
@@ -124,7 +128,7 @@ extension MobileCore.Network {
             return .retryable(error: error)
         }
 
-        open func handleError(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response?, error: NSError) -> ServiceError {
+        open func handleError(request: MobileCore.HTTP.RequestBuilder, response: MobileCore.HTTP.Response?, attempt: Int, error: NSError) -> ServiceError {
             switch error.domain {
             case "cfNetworkDomain", "NSURLErrorDomain":
                 return ServiceError.internetConnectivityIssue(error: error)
@@ -147,7 +151,7 @@ extension MobileCore.Network {
             )
         }
 
-        open func trackAuditEventIfRequired(request: MobileCore.HTTP.RequestBuilder, data: Data, response: URLResponse) {
+        open  func trackAuditEventIfRequired(request: MobileCore.HTTP.RequestBuilder, data: Data, response: URLResponse) {
             guard let auditDelegate = auditDelegate else {
                 Log.info(message: "No audit delegate setup! Call Network.configure(analyticsDelegate:, auditDelegate:)")
                 return
